@@ -1,0 +1,62 @@
+{
+ "schema": "frantic.verification.v1",
+ "bounty": 83,
+ "checks": [
+  {
+   "check": "runx_version",
+   "command": "runx --version",
+   "result": "runx-cli 0.9.1",
+   "required": "runx-cli 0.6.14 or newer",
+   "pass": true
+  },
+  {
+   "check": "package_name",
+   "result": "postmortem-maker published as alexanderjiazx/postmortem-maker (exact name)",
+   "pass": true
+  },
+  {
+   "check": "local_harness",
+   "command": "runx harness ./skills/postmortem-maker",
+   "result": "passed, 4 cases, 0 assertion errors",
+   "pass": true
+  },
+  {
+   "check": "clean_install",
+   "command": "runx add alexanderjiazx/postmortem-maker@sha-62ac1d14a135 --registry https://api.runx.ai",
+   "result": "installed",
+   "pass": true
+  },
+  {
+   "check": "registry_read_resolves",
+   "command": "runx registry read alexanderjiazx/postmortem-maker@sha-62ac1d14a135 --json",
+   "result": "resolves published metadata and digests",
+   "pass": true
+  },
+  {
+   "check": "dogfood_receipt_verifies",
+   "command": "runx verify --receipt sha256-7a6b0e07ddeb135f4059248be494a4a25dd7198280e2969fb49d31a18b598cf2.json --allow-local-development-signatures --json",
+   "result": "valid:true (digest, content_address, signature all valid)",
+   "pass": true
+  },
+  {
+   "check": "live_source_read",
+   "result": "dogfood run read https://www.githubstatus.com/api/v2/incidents.json at run time via web_fetch; fragments carry verbatim text from the fetched incident record",
+   "pass": true
+  },
+  {
+   "check": "executed_send_plan",
+   "result": "publish_result.executed=true, send_plan_status=executed, sealed-outbox write to outbox/postmortems/gh-status-qwdwmtqghpk5.postmortem.json",
+   "pass": true
+  },
+  {
+   "check": "public_pr",
+   "result": "https://github.com/runxhq/runx/pull/484 open from verified account AlexanderJiazx at head commit 1263b9a092d6fe9b32cdf95ac8c2472826a0c437",
+   "pass": true
+  },
+  {
+   "check": "stargazer",
+   "result": "AlexanderJiazx is a current stargazer of runxhq/runx",
+   "pass": true
+  }
+ ]
+}
