@@ -1,0 +1,14 @@
+{
+ "schema": "frantic.evidence.v1",
+ "bounty": 49,
+ "generated_at": "2026-09-15T16:06:19.126468+00:00",
+ "summary": "Filed a useful public issue on runxhq/runx describing a concrete gap found while publishing a skill: runx login --from-gh shells out to `gh auth token` and fails when the gh binary is absent, even though a valid GitHub token is already available via GH_TOKEN/GITHUB_TOKEN or the git credential helper. The issue includes the exact error, why it matters for agents/CI, and a fallback-order suggestion.",
+ "observations": [
+  "public_url https://github.com/runxhq/runx/issues/485 loads for a stranger and is a useful issue on the runx repository",
+  "the issue links to runx (the project under discussion) and was authored from real usage of runx-cli 0.9.1",
+  "the described failure was reproduced on this machine and worked around with a gh shim; the suggestion lists concrete token-source fallbacks",
+  "no screenshots, no spam, no reciprocal promotion; the artifact is a maintainer-facing improvement suggestion"
+ ],
+ "action": "filed_github_issue",
+ "artifact": "https://github.com/runxhq/runx/issues/485"
+}
