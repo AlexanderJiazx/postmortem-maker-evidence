@@ -1,96 +1,82 @@
 {
  "schema": "frantic.evidence.v1",
  "bounty": 83,
- "generated_at": "2026-09-15T15:26:43.879350+00:00",
- "summary": "postmortem-maker published to the runx registry as alexanderjiazx/postmortem-maker@sha-62ac1d14a135; local harness 4/4 sealed before publish; post-publish dogfood run read a live GitHub Status incident record via web_fetch, sealed a source-cited postmortem, and executed the sealed-outbox send plan; the sealed receipt passes runx verify.",
- "observations": {
-  "runx_version": "runx-cli 0.9.1",
-  "runx_version_command": "runx --version",
+ "generated_at": "2026-09-15T15:31:30.532055+00:00",
+ "summary": "postmortem-maker published to the runx registry as alexanderjiazx/postmortem-maker@sha-62ac1d14a135; local harness 4/4 sealed before publish; post-publish dogfood read a live GitHub Status incident record via web_fetch, sealed a source-cited postmortem, and executed the sealed-outbox send plan; the sealed receipt passes runx verify.",
+ "observations": [
+  "runx --version output: runx-cli 0.9.1",
+  "package published as alexanderjiazx/postmortem-maker@sha-62ac1d14a135 via runx login --provider github --for publish then runx registry publish ./skills/postmortem-maker/SKILL.md --registry https://api.runx.ai",
+  "local harness passed before publish: runx harness ./skills/postmortem-maker -> status passed, 4 cases, 0 assertion errors (publishable-delivers, conflicting-evidence-withholds, invented-citation-refuses, missing-source-refuses)",
+  "clean install: runx add alexanderjiazx/postmortem-maker@sha-62ac1d14a135 --registry https://api.runx.ai -> installed",
+  "registry read resolves: runx registry read alexanderjiazx/postmortem-maker@sha-62ac1d14a135 --json returns published metadata and digests (digest sha256:240f3cf1, profile sha256:64415740)",
+  "dogfood run read the incident record from a real source at run time: web_fetch of https://www.githubstatus.com/api/v2/incidents.json (incident qwdwmtqghpk5, resolved 2026-09-15T11:17Z), 6 fragments extracted verbatim",
+  "the sealed dogfood run executed the send plan: send_plan.status=ready -> fs.write outbox delivery -> publish_result.executed=true send_plan_status=executed",
+  "receipt verifies: runx verify --receipt sha256-7a6b0e07ddeb135f4059248be494a4a25dd7198280e2969fb49d31a18b598cf2.json -> valid true (digest, content_address, signature)",
+  "public PR from the claimant's verified GitHub identity: https://github.com/runxhq/runx/pull/484 head commit 1263b9a092d6fe9b32cdf95ac8c2472826a0c437; AlexanderJiazx is a stargazer of runxhq/runx",
+  "conflicting-evidence harness case withholds the send plan and publishes nothing; invented-citation case refuses with validation.status=fail"
+ ],
+ "dogfood": {
   "package": "alexanderjiazx/postmortem-maker@sha-62ac1d14a135",
-  "package_digest": "sha256:240f3cf185238b88e7a28d151d855747afe674c539b34f0b7d25364446c24bc2",
-  "profile_digest": "sha256:644157405fd2b3d54cfec0163ab5b4231852f082af8f09172b2daff5d4d8ee3a",
-  "registry": "https://api.runx.ai",
-  "public_url": "https://runx.ai/x/alexanderjiazx/postmortem-maker",
-  "registry_read_command": "runx registry read alexanderjiazx/postmortem-maker@sha-62ac1d14a135 --registry https://api.runx.ai --json",
-  "install_command": "runx add alexanderjiazx/postmortem-maker@sha-62ac1d14a135 --registry https://api.runx.ai",
-  "install_result": "installed",
-  "publish_command": "runx registry publish ./skills/postmortem-maker/SKILL.md --registry https://api.runx.ai",
-  "login_command": "runx login --provider github --for publish --from-gh",
-  "publisher_principal": "user_af6411464614c7609e7cbc12",
-  "local_harness": {
-   "command": "runx harness ./skills/postmortem-maker",
-   "status": "passed",
-   "case_count": 4,
-   "assertion_error_count": 0,
-   "cases": [
-    "postmortem-maker-publishable-delivers",
-    "postmortem-maker-conflicting-evidence-withholds",
-    "postmortem-maker-invented-citation-refuses",
-    "postmortem-maker-missing-source-refuses"
-   ]
-  },
-  "dogfood": {
-   "package": "alexanderjiazx/postmortem-maker@sha-62ac1d14a135",
-   "input": {
-    "incident_ref": "gh-status-qwdwmtqghpk5",
-    "incident_source": {
-     "kind": "web_fetch",
-     "url": "https://www.githubstatus.com/api/v2/incidents.json"
-    },
-    "postmortem_policy": {
-     "allow_publish": true,
-     "outbox_dir": "outbox/postmortems"
-    }
-   },
-   "command": "runx skill alexanderjiazx/postmortem-maker@sha-62ac1d14a135 --registry https://api.runx.ai --json -i incident_ref=gh-status-qwdwmtqghpk5 -i incident_source={kind:web_fetch,url:https://www.githubstatus.com/api/v2/incidents.json} -i postmortem_policy={allow_publish:true,outbox_dir:outbox/postmortems}",
-   "run_id": "run_make_f4356b399b76ec9d",
-   "receipt_ref": "sha256:7a6b0e07ddeb135f4059248be494a4a25dd7198280e2969fb49d31a18b598cf2",
-   "verify_command": "runx verify --receipt <receipt.json> --allow-local-development-signatures --json",
-   "verify_verdict": {
-    "schema": "runx.verify_verdict.v1",
-    "valid": true,
-    "digest": "valid",
-    "content_address": "valid",
-    "signature": "valid (local-development)",
-    "findings": []
-   },
-   "harness_cases": [
-    {
-     "name": "postmortem-maker-publishable-delivers",
-     "status": "sealed"
-    },
-    {
-     "name": "postmortem-maker-conflicting-evidence-withholds",
-     "status": "sealed"
-    },
-    {
-     "name": "postmortem-maker-invented-citation-refuses",
-     "status": "sealed"
-    },
-    {
-     "name": "postmortem-maker-missing-source-refuses",
-     "status": "failure(expected input validation)"
-    }
-   ],
-   "source_read": {
+  "input": {
+   "incident_ref": "gh-status-qwdwmtqghpk5",
+   "incident_source": {
     "kind": "web_fetch",
-    "fetched_ref": "https://www.githubstatus.com/api/v2/incidents.json",
-    "incident": "qwdwmtqghpk5 'Disruption with some GitHub services' resolved 2026-09-15T11:17Z",
-    "fragment_count": 6
+    "url": "https://www.githubstatus.com/api/v2/incidents.json"
    },
-   "postmortem_decision": "publishable",
-   "send_plan": {
-    "status": "ready",
-    "transport": "sealed-outbox",
-    "gate": "human-approver",
-    "bound_to": "postmortem"
-   },
-   "publish_result": {
-    "executed": true,
-    "send_plan_status": "executed",
-    "delivery_path": "outbox/postmortems/gh-status-qwdwmtqghpk5.postmortem.json",
-    "bound_digest": "sha256:3e91eeb5ca196d008cb1682835ab9f9c2d1813955c16d6d066fbd91ba033d220"
+   "postmortem_policy": {
+    "allow_publish": true,
+    "outbox_dir": "outbox/postmortems"
    }
+  },
+  "command": "runx skill alexanderjiazx/postmortem-maker@sha-62ac1d14a135 --registry https://api.runx.ai --json -i incident_ref=gh-status-qwdwmtqghpk5 -i incident_source={kind:web_fetch,url:https://www.githubstatus.com/api/v2/incidents.json} -i postmortem_policy={allow_publish:true,outbox_dir:outbox/postmortems}",
+  "run_id": "run_make_f4356b399b76ec9d",
+  "receipt_ref": "runx:receipt:sha256:7a6b0e07ddeb135f4059248be494a4a25dd7198280e2969fb49d31a18b598cf2",
+  "verify_command": "runx verify --receipt sha256-7a6b0e07ddeb135f4059248be494a4a25dd7198280e2969fb49d31a18b598cf2.json --allow-local-development-signatures --json",
+  "verify_verdict": {
+   "schema": "runx.verify_verdict.v1",
+   "valid": true,
+   "digest": "valid",
+   "content_address": "valid",
+   "signature": "valid",
+   "signature_mode": "local-development",
+   "findings": []
+  },
+  "harness_cases": [
+   {
+    "name": "postmortem-maker-publishable-delivers",
+    "status": "sealed"
+   },
+   {
+    "name": "postmortem-maker-conflicting-evidence-withholds",
+    "status": "sealed"
+   },
+   {
+    "name": "postmortem-maker-invented-citation-refuses",
+    "status": "sealed"
+   },
+   {
+    "name": "postmortem-maker-missing-source-refuses",
+    "status": "failure_expected_input_validation"
+   }
+  ],
+  "source_read": {
+   "kind": "web_fetch",
+   "fetched_ref": "https://www.githubstatus.com/api/v2/incidents.json",
+   "incident": "qwdwmtqghpk5 'Disruption with some GitHub services' resolved 2026-09-15T11:17Z",
+   "fragment_count": 6
+  },
+  "postmortem_decision": "publishable",
+  "send_plan": {
+   "status": "ready",
+   "transport": "sealed-outbox",
+   "gate": "human-approver",
+   "bound_to": "postmortem"
+  },
+  "publish_result": {
+   "executed": true,
+   "send_plan_status": "executed",
+   "delivery_path": "outbox/postmortems/gh-status-qwdwmtqghpk5.postmortem.json",
+   "bound_digest": "sha256:3e91eeb5ca196d008cb1682835ab9f9c2d1813955c16d6d066fbd91ba033d220"
   }
  }
 }
